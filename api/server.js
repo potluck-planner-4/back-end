@@ -1,12 +1,13 @@
 const express = require('express');
-//require routers
+const usersRouter = require("./routers/users-router")
+const potluckRouter = require("./routers/potluck-router")
 
 const server = express();
 
 server.use(express.json())
-//use routers
-// server.use()
-// server.use()
+
+server.use(usersRouter)
+server.use(potluckRouter)
 
 //error middleware
 server.use((err, req, res, next) => {
