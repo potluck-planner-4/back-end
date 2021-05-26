@@ -1,5 +1,7 @@
 # back-end
 
+run npm start to start the server
+
 | N | Method | Endpoint                | Description                                                                                                                              |
 | - | ------ | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | 1 | GET    | /potluck/:id               | Returns the potluck object with the specified id contained in the database                                                                   |

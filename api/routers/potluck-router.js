@@ -1,9 +1,9 @@
 const express = require("express")
-const { findById, insert, update } = require("../models/potluck-model")
+const { findById, insert, update, addFood, updateFood, findFoodById } = require("../models/potluck-model")
 
 const router = express.Router()
 
-router.get("/potluck/:id ", async (req, res, next) => {
+router.get("/potluck/:id", async (req, res, next) => {
 	try {
 		const potluck = await findById(req.params.id)
 		if (!potluck) {
@@ -34,9 +34,7 @@ router.post("/potluck", async (req, res, next) => {
 
 router.post("/potluck/:id/food", async (req, res, next) => {
 	try {
-        const food = await insert({
-			food: req.body.food
-		})
+        const food = await addFood({ food: req.body.food })
 
 		res.status(201).json(food)
 	} catch (err) {
@@ -59,8 +57,8 @@ router.put("/potluck/:id", async (req, res, next) => {
 router.put("/potluck/:id/food", async (req, res, next) => {
 	try {
 		const { id } = req.params
-		await update(id, req.body)
-		const food = await findById(id)
+		await updateFood(id, req.body)
+		const food = await findFoodById(id)
 		
 		res.json(food)
 	} catch(err) {

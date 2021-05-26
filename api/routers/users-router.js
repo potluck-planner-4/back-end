@@ -1,14 +1,15 @@
 const express = require("express")
-const { insert, findByUsername } = require("../models/users-model")
+const { insert, findBy } = require("../models/users-model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const JWT_SECRET = require("../secret")
 
 const router = express.Router()
 
 router.post("/users", async (req, res, next) => {
 	try {
 		const { username, password } = req.body
-		const user = await findByUsername(username)
+		const user = await findBy(username)
 
 		if (user) {
 			return res.status(409).json({
@@ -34,7 +35,7 @@ router.post("/users", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
 	try {
 		const { username, password } = req.body
-		const user = await findByUsername(username)
+		const user = await findBy(username)
 		
 		if (!user) {
 			return res.status(401).json({
@@ -52,9 +53,11 @@ router.post("/login", async (req, res, next) => {
 		}
 
 		// generate a new token
-		const token = jwt.sign({
+		const token = 
+		jwt.sign({
 			userID: user.id,
-		}, process.env.JWT_SECRET)
+		}, JWT_SECRET)
+
 
 		res.cookie("token", token)
 		res.json({

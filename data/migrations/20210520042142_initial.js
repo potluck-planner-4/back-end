@@ -30,6 +30,7 @@ exports.up = async (knex) => {
             .inTable("food")
             .onDelete("CASCADE")
             .onUpdate("CASCADE")
+        table.primary(["potluck_id", "food_id"])
 	})
 
     await knex.schema.createTable("potlucks_users", table => {
@@ -39,12 +40,13 @@ exports.up = async (knex) => {
             .inTable("potlucks")
             .onDelete("CASCADE")
 			.onUpdate("CASCADE")
-		table.integer("users_id")
+		table.integer("user_id")
             .notNull()
             .references("id")
             .inTable("users")
             .onDelete("CASCADE")
             .onUpdate("CASCADE")
+        table.primary(["potluck_id", "user_id"])
 	})
 };
 
@@ -58,3 +60,4 @@ exports.down = async (knex) => {
     await knex.schema.dropTableIfExists("users")
 
 };
+

@@ -1,11 +1,11 @@
 const db = require("../../data/config")
 
-const insert = (data) => {
+const insert = async (data) => {
     const [id] = await db("users").insert(data)
-	return findById(id)	
+	return findBy(id)	
 }
 
-const findByUsername = (username) => {
+const findBy = (username) => {
 	return db("users")
 		.where({ username })
 		.first()
@@ -13,5 +13,5 @@ const findByUsername = (username) => {
 
 module.exports = { 
     insert,
-    findByUsername
+    findBy
 }
