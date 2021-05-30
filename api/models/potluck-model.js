@@ -17,6 +17,17 @@ const findFoodById = (id) => {
         .first()		
 } 
 
+const getAllPotlucksFood = (id) => {
+    return db("potlucks_food as pf")
+    .join("food as f", "f.id", "pf.food_id")
+    .join("potlucks as p", "p.id", "pf.potluck_id")
+    .where("p.id", id)
+    .select(
+        "p.id",
+        "f.food",
+    )	
+}
+
 const addFood = async (data) => {
     const [id] = await db("food").insert(data)
 	return findFoodById(id)	
@@ -38,5 +49,6 @@ module.exports = {
     update,
     addFood,
     updateFood,
-    findFoodById
+    findFoodById,
+    getAllPotlucksFood
 }

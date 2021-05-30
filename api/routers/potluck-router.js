@@ -18,6 +18,21 @@ router.get("/potluck/:id", async (req, res, next) => {
 	}
 })
 
+router.get("/potluck/:id/food", async (req, res, next) => {
+	try {
+		const food = await getAllPotlucksFood(req.params.id)
+		if (!food) {
+			return res.status(404).json({
+				message: "Food not found",
+			})
+		}
+
+		res.json(food)
+	} catch (err) {
+		next(err)
+	}
+})
+
 router.post("/potluck", async (req, res, next) => {
 	try {
 		const potluck = await insert({
