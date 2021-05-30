@@ -1,5 +1,6 @@
 const express = require("express")
-const { findById, insert, update, addFood, updateFood, findFoodById } = require("../models/potluck-model")
+const { findById, insert, update, addFood, updateFood, findFoodById, getAllPotlucksFood} = require("../models/potluck-model")
+const { restrict } = require("../middleware/middleware")
 
 const router = express.Router()
 
@@ -33,7 +34,7 @@ router.get("/potluck/:id/food", async (req, res, next) => {
 	}
 })
 
-router.post("/potluck", async (req, res, next) => {
+router.post("/potluck", restrict(), async (req, res, next) => {
 	try {
 		const potluck = await insert({
 			date: req.body.date,
@@ -47,7 +48,7 @@ router.post("/potluck", async (req, res, next) => {
 	}
 })
 
-router.post("/potluck/:id/food", async (req, res, next) => {
+router.post("/potluck/:id/food", restrict(), async (req, res, next) => {
 	try {
         const food = await addFood({ food: req.body.food })
 
@@ -57,7 +58,7 @@ router.post("/potluck/:id/food", async (req, res, next) => {
 	}
 })
 
-router.put("/potluck/:id", async (req, res, next) => {
+router.put("/potluck/:id", restrict(), async (req, res, next) => {
 	try {
 		const { id } = req.params
 		await update(id, req.body)
@@ -69,7 +70,7 @@ router.put("/potluck/:id", async (req, res, next) => {
 	}
 })
 
-router.put("/potluck/:id/food", async (req, res, next) => {
+router.put("/potluck/:id/food", restrict(), async (req, res, next) => {
 	try {
 		const { id } = req.params
 		await updateFood(id, req.body)
